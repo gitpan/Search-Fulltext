@@ -1,0 +1,29 @@
+---
+abstract: 'Fulltext search module'
+author:
+  - 'Sho Nakatani <lay.sakura@gmail.com>'
+build_requires:
+  ExtUtils::MakeMaker: 6.36
+  File::Temp: 0
+  Test::Exception: 0
+  Test::More: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.36
+distribution_type: module
+dynamic_config: 1
+generated_by: 'Module::Install version 1.06'
+license: artistic
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Search-Fulltext
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  DBD::SQLite: 1.30_01
+  DBI: 0
+resources:
+  license: http://opensource.org/licenses/artistic-license.php
+version: 0.03

@@ -1,6 +1,7 @@
-MANIFEST			This list of files
+MANIFEST
 Makefile.PL
 README.pod
+Changes
 lib/Search/Fulltext.pm
 lib/Search/Fulltext/SQLite.pm
 lib/Search/Fulltext/TestSupport.pm

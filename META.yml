@@ -1,17 +1,17 @@
 ---
 abstract: 'Fulltext search module'
 author:
-  - 'Sho Nakatani <lay.sakura@gmail.com>'
+  - 'Sho Nakatani <lay.sakura@gmail.com>, a.k.a. @laysakura'
 build_requires:
-  ExtUtils::MakeMaker: 6.36
   File::Temp: 0
   Test::Exception: 0
   Test::More: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.36
-distribution_type: module
-dynamic_config: 1
-generated_by: 'Module::Install version 1.06'
+  CPAN::Meta: 0
+  CPAN::Meta::Prereqs: 0
+  Module::Build: 0.38
+dynamic_config: 0
+generated_by: 'Minilla/v0.7.5, CPAN::Meta::Converter version 2.120921'
 license: artistic_2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -19,11 +19,29 @@ meta-spec:
 name: Search-Fulltext
 no_index:
   directory:
-    - inc
     - t
+    - xt
+    - inc
+    - share
+    - eg
+    - examples
+    - author
+    - builder
+provides:
+  Search::Fulltext:
+    file: lib/Search/Fulltext.pm
+    version: 0.05
+  Search::Fulltext::SQLite:
+    file: lib/Search/Fulltext/SQLite.pm
+    version: 0
+  Search::Fulltext::TestSupport:
+    file: lib/Search/Fulltext/TestSupport.pm
+    version: 0
 requires:
   DBD::SQLite: 1.30_01
   DBI: 0
 resources:
-  license: http://opensource.org/licenses/artistic-license-2.0.php
-version: 0.04
+  bugtracker: https://github.com/laysakura/Search-Fulltext/issues
+  homepage: https://github.com/laysakura/Search-Fulltext
+  repository: git://github.com/laysakura/Search-Fulltext.git
+version: 0.05

@@ -30,7 +30,7 @@ no_index:
 provides:
   Search::Fulltext:
     file: lib/Search/Fulltext.pm
-    version: 1.00
+    version: 1.01
   Search::Fulltext::SQLite:
     file: lib/Search/Fulltext/SQLite.pm
     version: 0
@@ -44,4 +44,4 @@ resources:
   bugtracker: https://github.com/laysakura/Search-Fulltext/issues
   homepage: https://github.com/laysakura/Search-Fulltext
   repository: git://github.com/laysakura/Search-Fulltext.git
-version: 1.00
+version: 1.01

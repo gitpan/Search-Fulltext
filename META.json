@@ -50,6 +50,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Carp" : "0",
             "DBD::SQLite" : "1.30_01",
             "DBI" : "0"
          }
@@ -58,7 +59,7 @@
    "provides" : {
       "Search::Fulltext" : {
          "file" : "lib/Search/Fulltext.pm",
-         "version" : "1.02"
+         "version" : "1.03"
       },
       "Search::Fulltext::SQLite" : {
          "file" : "lib/Search/Fulltext/SQLite.pm"
@@ -78,5 +79,5 @@
          "web" : "https://github.com/laysakura/Search-Fulltext"
       }
    },
-   "version" : "1.02"
+   "version" : "1.03"
 }

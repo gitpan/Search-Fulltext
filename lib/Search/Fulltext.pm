@@ -3,14 +3,16 @@ use strict;
 use warnings;
 use utf8;
 
-our $VERSION = '1.02';
+use Carp;
+
+our $VERSION = '1.03';
 use Search::Fulltext::SQLite;
 
 sub new {
     my ($class, @args) = @_;
     my %args = ref $args[0] eq 'HASH' ? %{$args[0]} : @args;
 
-    unless ($args{docs}) { die "'docs' is required for creating new instance of $class" }
+    unless ($args{docs}) { croak "'docs' is required for creating new instance of $class" }
     $args{index_file} = ":memory:" unless defined $args{index_file};
     $args{tokenizer}  = "simple"   unless defined $args{tokenizer};
     $args{sqliteh}    = Search::Fulltext::SQLite::->new(
@@ -160,7 +162,7 @@ Bug reports and pull requests are welcome at L<https://github.com/laysakura/Sear
 
 =head1 VERSION
 
-Version 1.02
+Version 1.03
 
 =head1 AUTHOR
 

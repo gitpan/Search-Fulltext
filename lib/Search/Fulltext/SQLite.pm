@@ -4,6 +4,7 @@ use warnings;
 use utf8;
 
 use DBI;
+use Carp;
 
 use constant {
     TABLE       => 'fts4table',
@@ -27,9 +28,9 @@ sub new {
     my ($class, @args) = @_;
     my %args = ref $args[0] eq 'HASH' ? %{$args[0]} : @args;
 
-    unless ($args{docs})      { die "'docs' is required for creating new instance of $class" }
-    unless ($args{dbfile})    { die "'dbfile' is required for creating new instance of $class" }
-    unless ($args{tokenizer}) { die "'tokenizer' is required for creating new instance of $class" }
+    unless ($args{docs})      { croak "'docs' is required for creating new instance of $class" }
+    unless ($args{dbfile})    { croak "'dbfile' is required for creating new instance of $class" }
+    unless ($args{tokenizer}) { croak "'tokenizer' is required for creating new instance of $class" }
 
     my $self = bless {
         dbh => _make_dbh($args{dbfile}),
@@ -44,35 +45,24 @@ sub _make_fts4_index {
     my $dbh       = $self->{dbh};
     my $tokenizer = $self->{tokenizer};
 
-    $dbh->do("DROP TABLE IF EXISTS " . TABLE) or die $dbh->errstr;
-    $dbh->do("CREATE VIRTUAL TABLE " . TABLE . " USING fts4(" . CONTENT_COL . ", tokenize=$tokenizer)")
-        or die $dbh->errstr;
+    $dbh->do("DROP TABLE IF EXISTS " . TABLE);
+    $dbh->do("CREATE VIRTUAL TABLE " . TABLE . " USING fts4(" . CONTENT_COL . ", tokenize=$tokenizer)");
 
     $dbh->begin_work;
-    foreach (@{$self->{docs}}) {
-        $dbh->do("INSERT INTO " . TABLE . " (" . CONTENT_COL . ") VALUES ('$_')")
-            or die $dbh->errstr;
-    }
-    # FIXME: This code must be faster but produce segmentation fault...
-    # foreach (@{$self->{docs}}) {
-    #     my $sth = $dbh->prepare("INSERT INTO " . TABLE . " (" . CONTENT_COL . ") VALUES ('?')")
-    #         or die $dbh->errstr;
-    #     $sth->execute($_) foreach (@{$self->{docs}});
-    #     $sth->finish;
-    # }
+    my $sth = $dbh->prepare("INSERT INTO " . TABLE . " (" . CONTENT_COL . ") VALUES (?)");
+    $sth->execute($_) for @{$self->{docs}};
+    $sth->finish;
     $dbh->commit;
 }
 
 sub search_docids {
     my ($self, $query) = @_;
     my $dbh            = $self->{dbh};
-    my $sth = $dbh->prepare("SELECT " . DOCID_COL . "-1 FROM " . TABLE . " WHERE " . CONTENT_COL . " MATCH ?")
-        or die $dbh->errstr;
-    $sth->execute($query) or die $dbh->errstr;
+    my $sth = $dbh->prepare("SELECT " . DOCID_COL . "-1 FROM " . TABLE . " WHERE " . CONTENT_COL . " MATCH ?");
+    $sth->execute($query);
     my @docids = ();
-    while (my @row = $sth->fetchrow_array) {
-        push @docids, $row[0];
-    }
+    while (my @row = $sth->fetchrow_array) { push @docids, $row[0] }
+    $sth->finish;
     \@docids;
 }
 
